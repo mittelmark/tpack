@@ -75,8 +75,6 @@ chmod 755 tpack.tcl
 mv tpack.tcl ~/bin/
 ```
 
-
-
 ## COMPARISON
 
 Here a comparison table between three deployment strategies:
@@ -97,3 +95,9 @@ Before you deliver the tpack application files you can obviously compress them
 yourself using _gzip_, _zip_ or other tools.
 
 
+## EXAMPLE APPLICATIONS
+
+- [mkdoc](https://github.com/mittelmark/mkdoc)  - source  code  documentation tool
+- [pantcl](https://github.com/mittelmark/pantcl) - reporting tool for literate
+programming as pandoc filter
+- [tmdoc](https://github.com/mittelmark/tmdoc) - literature programming with Tcl
