@@ -11,7 +11,7 @@ __tpack__ - Tcl script packer - [Manual](https://htmlpreview.github.io/?https://
 tpack APPNAME.tapp         
 tpack APPNAME.tapp --lz4
 ### two file apps
-tpack wrap APPNAME.tcl APPNAME.vfs
+tpack wrap APPNAME.tcl APPNAME.vfs  
 ```
 
 You need a file mini.tcl and a folder mini.vfs with the following structure:
@@ -50,21 +50,27 @@ The script  _tpack.tcl_ can create  standalone  applications  containing  some
 tar-file loader, 
 the application code from _app.tcl_ and and the library code from _app.vfs_. 
 
-Installation of the application is than easy: 
+Installation of the created application is than easy: 
 
 - rename _app.tapp_ to _app.bin_ or just _app_
 - make it executable
 - move it to a directory belonging to your _PATH_ variable
 
+In case of two file applications:
+
+- make the file _app.ttcl_ executable
+- copy the files  _app.ttcl_  and _app.ttar_ to a directory  belonging to your
+  _PATH_ variable
+
 ## INSTALLATION
 
-Installation of the _tpack_ executable is easy, just copy the file _tpack.tcl_
+Installation of the _tpack_ executable itself is as well easy, just copy the file _tpack.tcl_
 as _tpack_ to a folder belonging to your _PATH_ variable. 
 
 Here an example on how to do that on a Linux system using wget:
 
 ```
-wget https://github.com/mittelmark/tpack/blob/main/tpack.tcl
+wget https://raw.githubusercontent.com/mittelmark/tpack/main/tpack.tcl
 chmod 755 tpack.tcl
 mv tpack.tcl ~/bin/
 ```
