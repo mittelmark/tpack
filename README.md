@@ -28,6 +28,9 @@ usually like this:
 lappend auto_path [file join [file dirname [info script]] lib]
 ```
 
+See the [sample  folder](https://github.com/mittelmark/tpack/tree/main/sample)
+for an example of a mini-application.
+
 ## DESCRIPTION
 
 __tpack__ is a Tcl script which can be used to deploy your Tcl  application to
