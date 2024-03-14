@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Detlef Groth, Caputh-Schwielowsee, Germany" />
+  <meta name="dcterms.date" content="2024-03-14" />
+  <title>tpack - Tcl application deployment</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="mini.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">tpack - Tcl application deployment</h1>
+<p class="author">Detlef Groth, Caputh-Schwielowsee, Germany</p>
+<p class="date">2024-03-14</p>
+</header>
+<h2 id="name">NAME</h2>
+<p><em>tpack</em> - create single or two file Tcl applications based on
+libraries in tar/lz4 archives</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code>$ tpack --help               # display usage information
+$ tpack wrap app.tapp        # wraps app.tcl and app.vfs into app.tapp 
+                             # where app.vfs is attached as tar archive
+$ tpack wrap app.tapp --lz4  # as above but use tar and lz4 for compression
+$ tpack wrap app.tcl app.vfs # wraps app.tcl into app.ttcl and app.vfs into app.ttar
+$ tpack wrap app             #            as above
+$ tpack init app.tcl app.vfs # creates initial file app.tcl and folder app.vfs
+$ tpack init app             #            as above
+$ tpack init app.vfs         # create initial folder app.vfs
+$ tpack unwrap app.tapp      # extracts app.tcl and app.ttar/lz4 out of app.tapp</code></pre>
+<h2 id="description">DESCRIPTION</h2>
+<p>The <em>tpack</em> application can be used to simplify deployment of
+Tcl applications to other computers and customers. The application can
+create single and two file applications. Single file applications,
+called tapp-files contain at the top the tar extraction code, the main
+tcl script and an attached tar archive containing the libraries required
+by this application file. At startup the tar file is detached from the
+file and unpacked into a temporary folder from where the libraries are
+loaded. The compression with lz4 needs an installed lz4 executable, the
+decompression of the build executable is embedded into the final
+application but requires a Tcl installation of at least 8.5.</p>
+<p>The single file approach create as <em>app.tapp</em> file out of
+<em>app.vfs</em> and <em>app.tcl</em>.</p>
+<p>The two file approach creates a ttcl-file for the application and a
+ttar-file for the library files. The unpacking of the library code in
+the tar archives is done only if the tapp file is newer then the files
+in the temporary directorywhere the files are extracted. If we assume
+that we have the application code in a file <em>app.tcl</em> and the Tcl
+libraries in a folder <em>app.vfs/lib</em> together with a file
+<em>app.vfs/main.tcl</em>. The call
+<code>$ tpack.tcl app.tcl app.vfs</code> will create two files:</p>
+<blockquote>
+<ul>
+<li><em>app.ttcl</em> - text file containing the application code from
+<em>app.tcl</em> and some code from the tar library to extract tar
+files</li>
+<li><em>app.ttar</em> - the library files from <em>app.vfs</em></li>
+</ul>
+</blockquote>
+<p>The file <em>main.tcl</em> in the vfs-folder should contain at least
+the following line:</p>
+<pre><code>lappend auto_path [file join [file dirname [info script]] lib]</code></pre>
+<p>The <em>tpack</em> application provides as well a loader for default
+starkit layouts, so a fake starkit package so that as well existing
+starkits can be packed by <em>tpack</em>, here a <em>main.tcl</em> file
+from the tknotepad application.</p>
+<pre><code>package require starkit
+if {[starkit::startup] == &quot;sourced&quot;} return
+package require app-tknotepad</code></pre>
+<p>In this case the application file tknotepad.tcl which is in the same
+directoy as <em>tknotepad.vfs</em> can be just an empty file. It can as
+well contain code to handel command line arguments. Here the file
+tknotepad.tcl:</p>
+<pre><code>proc usage {} {
+    puts &quot;Usage: tknotepad filename&quot;
+}
+if {[info exists argv0] &amp;&amp; $argv0 eq [info script] &amp;&amp; [regexp tknotepad $argv0]} {
+    if {[llength $argv] &gt; -1 &amp;&amp; [lsearch $argv --help] &gt; -1} {
+        usage
+    } elseif {[llength $argv] &gt; 0 &amp;&amp; [file exists [lindex $argv 0]]} {
+        openoninit [lindex $argv 0]
+    }
+}</code></pre>
+<p>That way you should be able to use your vfs-folder for creating
+tpacked applications as well for creating starkits.</p>
+<h2 id="installation">INSTALLATION</h2>
+<p>Make this file <em>tpack.tcl</em> executable and copy it as
+<em>tpack</em> into a directory belonging to your PATH environment.
+There are no other Tcl libraries required to install, just a working
+installation of Tcl/Tk is required.</p>
+<h2 id="example">EXAMPLE</h2>
+<p>Let’s demonstrate a minimal application:</p>
+<pre><code>## FILE mini.tcl
+#!/usr/bin/env tclsh
+package require test
+puts mini
+puts [test::hello]
+## FILE mini.vfs/main.tcl
+lappend auto_path [file join [file dirname [info script]] lib]
+## FILE mini.vfs/lib/test/pkgIndex.tcl
+package ifneeded test 0.1 [list source [file join $dir test.tcl]]
+## FILE mini.vfs/lib/test/test.tcl
+package require Tcl
+package provide test 0.1
+namespace eval ::test { }
+proc ::test::hello { } { puts &quot;Hello World!&quot; }
+## EOF&#39;s</code></pre>
+<p>There is the possibility to create such a minimal application
+automatically for you if you start a new project by using the command
+line options:</p>
+<pre><code>$ tpack init appname
+# - appname.tcl and appname.vfs folder with main.tcl and
+#   lib/test Tcl files will be created automatically for you.</code></pre>
+<p>The string <em>appname</em> has to be replaced with the name of your
+application. If a the Tcl file or the VFS folder does already exists,
+<em>tpack</em> for your safeness will refuse to overwrite them. If the
+files were created, you can overwrite the Tcl file
+(<em>appname.tcl</em>) with your own application and move your libraries
+into the folder <em>appname.vfs</em>. If you are ready you call
+<code>tpack wrap appname.tcl appname.vfs</code> and you end up with two
+new files, <em>appname.ttcl</em> your application code file, containing
+your code as well as some code from the tcllib tar package to unwrap
+your library file <em>appname.ttar</em> at program runtime. The ttar
+file contains your library files taken from the <em>appname.vfs</em>
+folder. You can move those two files around together and execute
+<em>appname.ttcl</em>, it will unpack the tar file into a temporary
+directory, only if the tar file is newer than the directory and load the
+libraries from there. You can as well rename <em>appname.ttcl</em> to
+<em>appname</em> but your tar-file should always have the same
+basename.</p>
+<p>Attention: if mini.ttcl is executed directly in the directory where
+mini.vfs is located not the tar file but the folder will be used for the
+libraries. That can simplify the development.</p>
+<p>You can rename mini.ttcl to what every you like so
+<code>mini.bin</code> or even <code>mini</code>, but the extension for
+the tar file must stay unchanged and must be in the same folder as the
+mini application file.</p>
+<p>The tpack.tcl script, the minimal application and this Readme are as
+well packed together in a Zip archive which is available here: <a
+href="https://downgit.github.io/#/home?url=https://github.com/mittelmark/DGTcl/tree/master/apps/tpack">tpack.zip</a></p>
+<h2 id="changelog">CHANGELOG</h2>
+<ul>
+<li>2021-09-10 - release 0.1 - two file applications (ttcl and ttar) are
+working</li>
+<li>2021-11-10 - release 0.2.0
+<ul>
+<li>single file applications (ttap = ttcl+ttar in one file) are working
+as well</li>
+<li>fake starkit::startup to load existing starkit apps without
+modification</li>
+<li>build sample apps tknotepad, pandoc-tcl-filter,</li>
+</ul></li>
+<li>2021-11-26 - release 0.2.1
+<ul>
+<li>bugfix: adding <code>package forget tar</code> after tar file
+loading to catch users <code>package require tar</code></li>
+</ul></li>
+<li>2022-02-16 - release 0.3.0
+<ul>
+<li>support for lz4 compression/decompression</li>
+</ul></li>
+<li>2024-03-14 - release 0.3.1
+<ul>
+<li>docu updates</li>
+<li>project moved to its own repo
+https://github.com/mittelmark/tpack</li>
+</ul></li>
+</ul>
+<h2 id="todo">TODO</h2>
+<ul>
+<li>using ttar.gz files with Tcl 8.6 and zlib and with Tcl 8.5/8.4
+gunzip terminal app</li>
+<li>nsis installer for Windows, to deploy minimal Tcl/Tk with the
+application</li>
+</ul>
+<h2 id="author">AUTHOR</h2>
+<ul>
+<li>Copyright (c) 2021-2024 Detlef Groth, Caputh-Schwielowsee, Germany,
+detlef(at)dgroth(dot)de (tpack code)</li>
+<li>Copyright (c) 2017 dbohdan pur Tcl lz4 decompression code</li>
+<li>Copyright (c) 2013 Andreas Kupries
+andreas_kupries(at)users.sourceforge(dot)net (tar code)</li>
+<li>Copyright (c) 2004 Aaron Faupell
+afaupell(at)users.sourceforge(sot)net (tar code)</li>
+</ul>
+<h2 id="license">LICENSE</h2>
+<pre><code>BSD 3-Clause License
+
+Copyright (c) 2024, Detlef Groth
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its
+   contributors may be used to endorse or promote products derived from
+   this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</code></pre>
+</body>
+</html>
