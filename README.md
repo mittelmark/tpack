@@ -2,15 +2,16 @@
 
 ## NAME
 
-__tpack__ - Tcl script packer
+__tpack__ - Tcl script packer - [Manual](https://htmlpreview.github.io/?https://raw.githubusercontent.com/mittelmark/tpack/master/doc/tpack.html)
 
 ## SYNOPSIS
 
-
-
 ```
-tpack mini.tapp         
-tpack mini.tapp --lz4
+### single file apps
+tpack APPNAME.tapp         
+tpack APPNAME.tapp --lz4
+### two file apps
+tpack wrap APPNAME.tcl APPNAME.vfs
 ```
 
 You need a file mini.tcl and a folder mini.vfs with the following structure:
@@ -72,11 +73,18 @@ mv tpack.tcl ~/bin/
 Here a comparison table between three deployment strategies:
 
 |  Deployment | files |  Compression  | Tclkit 8.4 | Tclkit 8.5 | Tclkit 8.6 |Tclkit 8.7 | Tcl 8.4 | Tcl 8.5 | Tcl 8.6 | Tcl 8.7 |
-|:-----------:|:-----:|:-----------:|:----------:|:----------:|:----------:|:----------:|:-------:|:-------:|:-------:|:-------:|
+|:-----------:|:-----:|:-------------:|:----------:|:----------:|:----------:|:----------:|:-------:|:-------:|:-------:|:-------:|
 | starkit     | 1     |  yes         |  yes        | yes        | yes        | yes        | no | no | no | no |
 | zipkit      | 1     | yes | no | no | no | yes | no | no | no | yes |
 | tpack       | 1,2   | yes* | yes | yes | yes | yes | yes | yes | yes | yes |
 
-*Before you deliver the tpack application files you can obviously compress them yourself using gzip, zip or other tools, lz4 expression requires an lz4 executable during file creation and at least Tcl 8.5 at runtime.
+
+*_tpack_ can use the _lz4_  application  to  compress  the  script,  and at runtime
+decompress the script without this  executable. So _lz4_ compression  with _tpack_
+requires  an _lz4_  executable  during  file  creation  and at least  Tcl 8.5 at
+runtime to unpack the code in the background before execution.
+
+Before you deliver the tpack application files you can obviously compress them
+yourself using _gzip_, _zip_ or other tools.
 
 
