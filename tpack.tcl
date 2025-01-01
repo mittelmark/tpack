@@ -4,7 +4,7 @@
 #  Author        : Detlef Groth
 #  Created By    : Detlef Groth
 #  Created       : Tue Sep 7 17:58:32 2021
-#  Last Modified : <240314.1230>
+#  Last Modified : <250101.0947>
 #
 #  Description	 : Standalone deployment tool for Tcl apps using uncompressed tar archives.
 #
@@ -39,7 +39,7 @@
 # 
 # RCS: @(#) $Id: tar.tcl,v 1.17 2012/09/11 17:22:24 andreas_kupries Exp $
 
-package require Tcl 8.4
+package require Tcl 8.4-
 package provide tar 0.11
 
 namespace eval ::tar {}
@@ -845,9 +845,9 @@ proc ::lz4::unzip {infile outfile {verify false}} {
 #' title: tpack - Tcl application deployment
 #' section: 1
 #' header: User Manual
-#' footer: tpack 0.3.1
-#' author: Detlef Groth, Caputh-Schwielowsee, Germany
-#' date: 2024-03-14
+#' footer: tpack 0.4.0
+#' author: Detlef Groth, University of Potsdam, Germany
+#' date: 2025-01-01
 #' ---
 #' 
 #' ## NAME 
@@ -996,7 +996,9 @@ proc ::lz4::unzip {infile outfile {verify false}} {
 #' - 2024-03-14 - release 0.3.1
 #'     - docu updates
 #'     - project moved to its own repo https://github.com/mittelmark/tpack
-#'  
+#' - 2025-01-01 - release 0.4.0
+#'     - making it Tcl 9 aware
+#'
 #' ## TODO
 #' 
 #' - using ttar.gz files with Tcl 8.6 and zlib and with Tcl 8.5/8.4 gunzip terminal app
@@ -1004,7 +1006,7 @@ proc ::lz4::unzip {infile outfile {verify false}} {
 #'
 #' ## AUTHOR
 #' 
-#'   - Copyright (c) 2021-2024 Detlef Groth, Caputh-Schwielowsee, Germany, detlef(at)dgroth(dot)de (tpack code)
+#'   - Copyright (c) 2021-2025 Detlef Groth, University of Potsdam, Germany, dgroth(at)uni(minus)potsdam(dot)de (tpack code)
 #'   - Copyright (c) 2017 dbohdan pur Tcl lz4 decompression code
 #'   - Copyright (c) 2013 Andreas Kupries andreas_kupries(at)users.sourceforge(dot)net (tar code)
 #'   - Copyright (c) 2004 Aaron Faupell afaupell(at)users.sourceforge(sot)net (tar code)
@@ -1014,7 +1016,7 @@ proc ::lz4::unzip {infile outfile {verify false}} {
 #' ```
 #' BSD 3-Clause License
 #'
-#' Copyright (c) 2024, Detlef Groth
+#' Copyright (c) 2021-2025 Detlef Groth, University of Potsdam, Germany
 #'
 #' Redistribution and use in source and binary forms, with or without
 #' modification, are permitted provided that the following conditions are met:
@@ -1044,7 +1046,7 @@ proc ::lz4::unzip {infile outfile {verify false}} {
 #'
 package require Tcl
 package require tar
-package provide tpack 0.3.1
+package provide tpack 0.4.0
 
 namespace eval tpack {
     proc usage { } {
