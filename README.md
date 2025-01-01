@@ -1,5 +1,11 @@
 # tpack
 
+[![license](https://img.shields.io/badge/license-BSD-lightgray.svg)](https://opensource.org/license/bsd)
+[![Release](https://img.shields.io/github/v/release/mittelmark/tpack.svg?label=current+release)](https://github.com/mittelmark/tpack/releases)
+![Downloads](https://img.shields.io/github/downloads/mittelmark/tpack/total)
+![Commits](https://img.shields.io/github/commits-since/mittelmark/tpack/latest)
+[![Docu](https://img.shields.io/badge/Docu-blue)](http://htmlpreview.github.io/?https://github.com/mittelmark/mkdoc/blob/master/tpack/doc/tpack.html)
+
 ## NAME
 
 __tpack__ - Tcl script packer - [Manual](https://htmlpreview.github.io/?https://raw.githubusercontent.com/mittelmark/tpack/master/doc/tpack.html)
@@ -79,7 +85,7 @@ mv tpack.tcl ~/bin/
 
 Here a comparison table between three deployment strategies:
 
-|  Deployment | files |  Compression  | Tclkit 8.4 | Tclkit 8.5 | Tclkit 8.6 |Tclkit 8.7 | Tcl 8.4 | Tcl 8.5 | Tcl 8.6 | Tcl 8.7 |
+|  Deployment | files |  Compression  | Tclkit 8.4 | Tclkit 8.5 | Tclkit 8.6 |Tclkit 9.0 | Tcl 8.4 | Tcl 8.5 | Tcl 8.6 | Tcl 9.0 |
 |:-----------:|:-----:|:-------------:|:----------:|:----------:|:----------:|:----------:|:-------:|:-------:|:-------:|:-------:|
 | starkit     | 1     |  yes         |  yes        | yes        | yes        | yes        | no | no | no | no |
 | zipkit      | 1     | yes | no | no | no | yes | no | no | no | yes |
