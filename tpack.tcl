@@ -4,7 +4,7 @@
 #  Author        : Detlef Groth
 #  Created By    : Detlef Groth
 #  Created       : Tue Sep 7 17:58:32 2021
-#  Last Modified : <250101.1158>
+#  Last Modified : <250101.1218>
 #
 #  Description	 : Standalone deployment tool for Tcl apps using uncompressed tar archives.
 #
@@ -170,7 +170,8 @@ proc ::tar::contents {file args} {
 	set fh $file
     } else {
 	set fh [::open $file]
-	fconfigure $fh -encoding binary -translation lf -eofchar {}
+	##fconfigure $fh -encoding binary -translation lf -eofchar {}
+	fconfigure $fh -translation binary -eofchar {}        
     }
     set ret {}
     while {![eof $fh]} {
@@ -458,7 +459,8 @@ proc ::tar::writefile {in out followlinks name} {
      set size 0
      if {[file type $in] == "file" || ($followlinks && [file type $in] == "link")} {
          set in [::open $in]
-         fconfigure $in -encoding binary -translation lf -eofchar {}
+         #fconfigure $in -encoding binary -translation lf -eofchar {}
+         fconfigure $in -translation binary -eofchar {}         
          set size [fcopy $in $out]
          close $in
      }
@@ -474,7 +476,8 @@ proc ::tar::create {tar files args} {
 	set fh $tar
     } else {
 	set fh [::open $tar w+]
-	fconfigure $fh -encoding binary -translation lf -eofchar {}
+	#fconfigure $fh -encoding binary -translation lf -eofchar {}
+	fconfigure $fh -translation binary -eofchar {}        
     }
     foreach x [recurseDirs $files $dereference] {
         writefile $x $fh $dereference $x
