@@ -2,9 +2,9 @@
 title: tpack - Tcl application deployment
 section: 1
 header: User Manual
-footer: tpack 0.3.1
-author: Detlef Groth, Caputh-Schwielowsee, Germany
-date: 2024-03-14
+footer: tpack 0.4.0
+author: Detlef Groth, University of Potsdam, Germany
+date: 2025-01-01
 ---
 
 ## NAME 
@@ -153,7 +153,9 @@ The tpack.tcl script, the minimal application and this Readme are as well packed
 - 2024-03-14 - release 0.3.1
     - docu updates
     - project moved to its own repo https://github.com/mittelmark/tpack
- 
+- 2025-01-01 - release 0.4.0
+    - making it Tcl 9 aware
+
 ## TODO
 
 - using ttar.gz files with Tcl 8.6 and zlib and with Tcl 8.5/8.4 gunzip terminal app
