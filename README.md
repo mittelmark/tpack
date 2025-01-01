@@ -4,7 +4,7 @@
 [![Release](https://img.shields.io/github/v/release/mittelmark/tpack.svg?label=current+release)](https://github.com/mittelmark/tpack/releases)
 ![Downloads](https://img.shields.io/github/downloads/mittelmark/tpack/total)
 ![Commits](https://img.shields.io/github/commits-since/mittelmark/tpack/latest)
-[![Docu](https://img.shields.io/badge/Docu-blue)](http://htmlpreview.github.io/?https://github.com/mittelmark/mkdoc/blob/master/tpack/doc/tpack.html)
+[![Docu](https://img.shields.io/badge/Docu-blue)](https://htmlpreview.github.io/?https://raw.githubusercontent.com/mittelmark/tpack/master/doc/tpack.html)
 
 ## NAME
 
