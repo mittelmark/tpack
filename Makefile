@@ -1,5 +1,5 @@
-
-
+TCL9=~/.local/opt/bin/tclsh9.0
+tpack=tpack
 docu:
 	perl -ne "/^#'/ and print" tpack.tcl | perl -pe 's/^.. ?//' > doc/tpack.md
 	cd doc && pandoc tpack.md -o tpack.html --css mini.css -s
@@ -16,7 +16,13 @@ test:
 	cd test && echo "package ifneeded test 0.1 [list source [file join \$$dir test.tcl]]" > mini.vfs/lib/test/pkgIndex.tcl
 	cd test && echo -e "package require Tcl\npackage provide test 0.1\nnamespace eval ::test { }\n" > mini.vfs/lib/test/test.tcl
 	cd test && echo "proc ::test::hello { } { puts \"Hello World!\" }" >> mini.vfs/lib/test/test.tcl
-	cd test && tclsh ../tpack.tcl wrap mini.tapp
-	cd test && mv mini.tapp mini.bin
-	cd test && chmod 755 mini.bin
-	cd test && ./mini.bin
+	cd test && tclsh ../$(tpack).tcl wrap mini.tapp
+	cd test && mv mini.tapp ../bin/mini.bin
+	chmod 755 bin/mini.bin
+	./bin/mini.bin
+	$(TCL9) bin/mini.bin	
+	cd test && tclsh ../$(tpack).tcl wrap mini.tapp --lz4	
+	cd test && mv mini.tapp ../bin/mini.zbin
+	chmod 755 bin/mini.zbin
+	./bin/mini.zbin
+	$(TCL9) bin/mini.zbin		
