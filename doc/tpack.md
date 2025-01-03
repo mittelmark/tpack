@@ -2,9 +2,9 @@
 title: tpack - Tcl application deployment
 section: 1
 header: User Manual
-footer: tpack 0.4.0
+footer: tpack 0.4.1
 author: Detlef Groth, University of Potsdam, Germany
-date: 2025-01-01
+date: 2025-01-02
 ---
 
 ## NAME 
@@ -155,6 +155,8 @@ The tpack.tcl script, the minimal application and this Readme are as well packed
     - project moved to its own repo https://github.com/mittelmark/tpack
 - 2025-01-01 - release 0.4.0
     - making it Tcl 9 aware
+- 2025-01-02 - release 0.4.1
+    - making it Tcl 9 aware, anohter fix
 
 ## TODO
 
@@ -163,7 +165,7 @@ The tpack.tcl script, the minimal application and this Readme are as well packed
 
 ## AUTHOR
 
-  - Copyright (c) 2021-2024 Detlef Groth, Caputh-Schwielowsee, Germany, detlef(at)dgroth(dot)de (tpack code)
+  - Copyright (c) 2021-2025 Detlef Groth, University of Potsdam, Germany, dgroth(at)uni(minus)potsdam(dot)de (tpack code)
   - Copyright (c) 2017 dbohdan pur Tcl lz4 decompression code
   - Copyright (c) 2013 Andreas Kupries andreas_kupries(at)users.sourceforge(dot)net (tar code)
   - Copyright (c) 2004 Aaron Faupell afaupell(at)users.sourceforge(sot)net (tar code)
@@ -173,7 +175,7 @@ The tpack.tcl script, the minimal application and this Readme are as well packed
 ```
 BSD 3-Clause License
 
-Copyright (c) 2024, Detlef Groth
+Copyright (c) 2021-2025 Detlef Groth, University of Potsdam, Germany
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:

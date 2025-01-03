@@ -4,7 +4,7 @@
 #  Author        : Detlef Groth
 #  Created By    : Detlef Groth
 #  Created       : Tue Sep 7 17:58:32 2021
-#  Last Modified : <250102.2120>
+#  Last Modified : <250102.2149>
 #
 #  Description	 : Standalone deployment tool for Tcl apps using uncompressed tar archives.
 #
@@ -996,10 +996,8 @@ proc unwraptapp {tappfile} {
     close $tmp 
     set data [string range $data 0 [expr {$ctrlz - 2}]]
     set eoarchive [string first "## ARCHIVE LOADER END" $data]
-    puts $eoarchive
     set data [string range $data [incr eoarchive 22] end]
     set shebang [string first "#!/usr/bin/env tclsh" $data]
-    puts $shebang
     if {$shebang > 0} {
         set data [string range $data $shebang end]
     }
@@ -1008,7 +1006,25 @@ proc unwraptapp {tappfile} {
     puts -nonewline $out $data
     close $out
     puts stdout "Done: unwrapped $appname to $ttarfile and $tclfile"
+    if {[regexp {.tb64$} $ttarfile]} {
+        if {[is_lz4_file $ttarfile]} {
+            ::lz4::unzip $ttarfile temp.b64
+            file rename -force temp.b64 $ttarfile
+        }
+        decode_file $ttarfile .
+    }
 }
+proc is_lz4_file {filename} {
+    set f [open $filename r]
+    fconfigure $f -translation binary
+    set header [read $f 4]
+    close $f
+    
+    binary scan $header H* hex_header
+    puts "$hex_header"
+    return [string equal $hex_header "04224d18"]
+}
+
 proc wrapfile {tclfile ttclfile scriptfile {lz4 false}} {
     set infile $tclfile
     set ttcl $ttclfile
@@ -1028,12 +1044,10 @@ proc wrapfile {tclfile ttclfile scriptfile {lz4 false}} {
                 set flag true
             } elseif {[regexp {^## EOF: b64.tcl} $line]} {
                 if {!$lz4} {
-                    puts "finish"
                     close $infh
                     break
                 }
             } elseif {[regexp {^## EOF: lz4unpack.tcl} $line]} { 
-                puts "finish"
                 close $infh
                 break
             } elseif {$flag} {
@@ -1041,8 +1055,6 @@ proc wrapfile {tclfile ttclfile scriptfile {lz4 false}} {
             }
         }
     }
-    # the tttcl tar unpack routines
-    # stored
     puts $out "## ARCHIVE LOADER START"    
     puts $out $::tpack::loader
     puts $out "## ARCHIVE LOADER END"
@@ -1148,7 +1160,7 @@ if {[info exists argv0] && $argv0 eq [info script]} {
             set ttclfile  [file rootname $arg].ttcl
             set vfsfolder [file rootname $arg].vfs
             set ttarfile [file rootname $arg].tb64
-            set lz4file [file rootname $arg].ttar.lz4
+            set lz4file [file rootname $arg].tb64.lz4
             set tapp true
         } elseif {[file extension $arg] eq ".ttcl"} { 
             set ttclfile $arg
@@ -1186,10 +1198,9 @@ if {[info exists argv0] && $argv0 eq [info script]} {
         if {[file exists $vfsfolder] && [file isdirectory $vfsfolder]} {
             set t1 [clock seconds]
             puts -nonewline "wrapping $vfsfolder into $ttarfile ..."
-            tardir $vfsfolder $ttarfile
+            b64dir $vfsfolder $ttarfile
             set t2 [expr {[clock seconds]-$t1}]
             puts " in $t2 seconds done!"
-            
         } 
         if {![file exists $tclfile] && ![file exists $vfsfolder]} {
             tpack::usage
