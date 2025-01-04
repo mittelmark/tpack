@@ -1,0 +1,123 @@
+ INIParse v1.4 (C)2000
+
+   see AUTHORS
+
+
+
+ Usage:
+   iniparse:openfile <filename> ?RDONLY?
+   
+ Reads an ini file into memory, for later access (such as read or write),
+ and return an id which can be later used for writing/reading data, and
+ flushing/closing file.
+
+ Notes:
+ - It doesn't leave the file open, just reads into memory, and returns an id.
+ - If RDONLY is specified (case-sensetive), then calls to writeini will work
+   only in memory, and changes won't be saved with iniparse:flush, nor
+   iniparse:closefile.
+
+
+
+ Usage:
+   iniparse:flushfile <fileId>
+   
+ Writes an ini file in memory into its file, without removing data from
+ memory.
+
+
+
+ Usage:
+   iniparse:closefile <fileId>
+   
+ Flushes an ini file in memory into its file, and then removes data from
+ memory.
+
+
+
+ Usage:
+   readini <fileId> [ [<keyname>] [<itemname>] ]
+       Reads <itemname> under <keyname> from <fileId>. If it cannot find
+       file, <itemname>, or <keyname>, returns an empty string.
+       If itemname is absent, returns list of all items under keyname.
+
+ Notes:
+ - This procedure doesn't read directly from the file, but from the
+   memory-version of the file. If directly the file (not memory version) is
+   modified after the call to iniparse:openfile, this procedure will not
+   see the changes in the file, but only changes in memory-version.
+
+ See: writeini iniparse:openfile
+
+
+
+ Usage:
+   writeini <fileId> <keyname> <itemname> <itemvalue>
+	Writes/modifies <itemname> under <keyname> in <fileId>. If cannot
+	find <itemname>, or <keyname>, creates a new one.
+
+ Notes:
+ - This procedure doesn't write directly to the file, but to the
+   memory-version of the file. If directly the file (not memory version) is
+   modified after the call to iniparse:openfile, this procedure will not
+   see the changes in the file, but only changes in memory-version.
+
+ See: readini iniparse:openfile
+
+
+
+ Usage:
+   iniparse:removeitem <fileId> <keyname> <itemname>
+	Removes <itemname> under <keyname> in <fileId>.
+
+ Notes:
+ - This procedure doesn't write directly to the file, but to the
+   memory-version of the file. If directly the file (not memory version) is
+   modified after the call to iniparse:openfile, this procedure will not
+   see the changes in the file, but only changes in memory-version.
+
+ See: readini iniparse:openfile
+
+
+
+ Usage:
+   iniparse:removekey <fileId> <keyname>
+	Removes <keyname> in <fileId>.
+
+ Notes:
+ - This procedure doesn't write directly to the file, but to the
+   memory-version of the file. If directly the file (not memory version) is
+   modified after the call to iniparse:openfile, this procedure will not
+   see the changes in the file, but only changes in memory-version.
+
+ See: readini iniparse:openfile
+
+
+
+ Usage:
+   iniparse:renameitem <fileId> <keyname> <itemName> <newItemName>
+	Renames <itemName> under <keyname> in <fileId> to <newItemName>.
+
+ Notes:
+ - This procedure doesn't write directly to the file, but to the
+   memory-version of the file. If directly the file (not memory version) is
+   modified after the call to iniparse:openfile, this procedure will not
+   see the changes in the file, but only changes in memory-version.
+
+ See: readini iniparse:openfile
+
+
+
+ Usage:
+   iniparse:renamekey <fileId> <keyname> <newKeyName>
+	Renames <keyname> in <fileId> to <newKeyName>.
+
+ Notes:
+ - This procedure doesn't write directly to the file, but to the
+   memory-version of the file. If directly the file (not memory version) is
+   modified after the call to iniparse:openfile, this procedure will not
+   see the changes in the file, but only changes in memory-version.
+
+ See: readini iniparse:openfile
+
+
