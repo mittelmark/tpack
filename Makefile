@@ -1,7 +1,7 @@
 TCL9=~/.local/opt/bin/tclsh9.0
-tpack=tpack
+tpack=tpack-b64
 docu:
-	perl -ne "/^#'/ and print" tpack.tcl | perl -pe 's/^.. ?//' > doc/tpack.md
+	perl -ne "/^#'/ and print" tpack-b64.tcl | perl -pe 's/^.. ?//' > doc/tpack.md
 	cd doc && pandoc tpack.md -o tpack.html --css mini.css -s
 	cd doc && pandoc tpack.md -s -t man > tpack.1
 

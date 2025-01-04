@@ -10,17 +10,21 @@
 
 __tpack__ - Tcl script packer - [Manual](https://htmlpreview.github.io/?https://raw.githubusercontent.com/mittelmark/tpack/master/doc/tpack.html)
 
+
+There are two versions currently of that script: [tpack-tar.tcl](tpack-tar.tcl) which should work on Tcl 8.5 and Tcl 8.6 and [tpack-b64.tcl](tpack-b54.tcl) which should work with
+Tcl 8.5, 8.6 and 9.0 in principle. For Tcl 8.4 enabled version see [here](https://github.com/mittelmark/tpack/blob/bdc26dc128c9e67f91d6efed66fe7576adc530a3/tpack.tcl).
+
 ## SYNOPSIS
 
 ```
 ### single file apps
-tpack APPNAME.tapp         
-tpack APPNAME.tapp --lz4
-### two file apps
-tpack wrap APPNAME.tcl APPNAME.vfs  
+tpack wrap APPNAME.tapp         
+tpack wrap APPNAME.tapp --lz4
+./APPNAME.tapp
 ```
 
-You need a file mini.tcl and a folder mini.vfs with the following structure:
+For instance for an  application  _mini.tapp_,  you need a file mini.tcl and a
+folder mini.vfs with the following structure:
 
 ```
 lib main.tcl
@@ -34,8 +38,8 @@ usually like this:
 lappend auto_path [file join [file dirname [info script]] lib]
 ```
 
-See the [sample  folder](https://github.com/mittelmark/tpack/tree/main/sample)
-for an example of a mini-application.
+See the [samples folder](https://github.com/mittelmark/tpack/tree/main/samples)
+for an example of such a mini-application and other example applcations.
 
 ## DESCRIPTION
 
@@ -76,7 +80,7 @@ as _tpack_ to a folder belonging to your _PATH_ variable.
 Here an example on how to do that on a Linux system using wget:
 
 ```
-wget https://raw.githubusercontent.com/mittelmark/tpack/main/tpack.tcl
+wget  https://raw.githubusercontent.com/mittelmark/tpack/main/tpack-b64.tcl -O tpack.tcl
 chmod 755 tpack.tcl
 mv tpack.tcl ~/bin/
 ```
@@ -85,11 +89,11 @@ mv tpack.tcl ~/bin/
 
 Here a comparison table between three deployment strategies:
 
-|  Deployment | files |  Compression  | Tclkit 8.4 | Tclkit 8.5 | Tclkit 8.6 |Tclkit 9.0 | Tcl 8.4 | Tcl 8.5 | Tcl 8.6 | Tcl 9.0 |
-|:-----------:|:-----:|:-------------:|:----------:|:----------:|:----------:|:----------:|:-------:|:-------:|:-------:|:-------:|
-| starkit     | 1     |  yes         |  yes        | yes        | yes        | yes        | no | no | no | no |
-| zipkit      | 1     | yes | no | no | no | yes | no | no | no | yes |
-| tpack       | 1,2   | yes* | yes | yes | yes | yes | yes | yes | yes | yes |
+|  Deployment | files |  Compression  | Tclkit 8.4** | Tclkit 8.5 | Tclkit 8.6 | Tcl 8.4** | Tcl 8.5 | Tcl 8.6 | Tcl 9.0 |
+|:-----------:|:-----:|:-------------:|:------------:|:----------:|:----------:|:---------:|:-------:|:-------:|:-------:|
+| starkit     | 1     | yes          | yes           | yes        | yes        | no        | no      | no      | no      |
+| zipkit      | 1     | yes           | no           | no         | no         | no        | no      | no      | yes     |
+| tpack       | 1,2   | yes*          | yes          | yes        | yes        | yes       | yes     | yes     | yes     |
 
 
 *_tpack_ can use the _lz4_  application  to  compress  the  script,  and at runtime
@@ -100,6 +104,8 @@ runtime to unpack the code in the background before execution.
 Before you deliver the tpack application files you can obviously compress them
 yourself using _gzip_, _zip_ or other tools.
 
+**Tcl/Tclkit 8.4** requires version of tpack before version 0.4.0 which you can retrieve from [here](https://github.com/mittelmark/tpack/blob/bdc26dc128c9e67f91d6efed66fe7576adc530a3/tpack.tcl)
+
 
 ## EXAMPLE APPLICATIONS
 
@@ -107,6 +113,11 @@ yourself using _gzip_, _zip_ or other tools.
 - [pantcl](https://github.com/mittelmark/pantcl) - reporting tool for literate
 programming as pandoc filter
 - [tmdoc](https://github.com/mittelmark/tmdoc) - literature programming with Tcl
+
+## CHANGES
+
+- 2025-01-01: v0.4.0 starting support for Tcl 9
+- 2025-01-XX: v0.5.0 switched default from tar to base64 as the code storage as tar code had some issues
 
 ## LICENSE
 

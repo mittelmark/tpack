@@ -14,7 +14,7 @@
 . ftr VB CB
 . ftr VBI CBI
 .\}
-.TH "tpack - Tcl application deployment" "1" "2025-01-02" "tpack 0.4.1" "User Manual"
+.TH "tpack - Tcl application deployment" "1" "2025-01-04" "tpack 0.5.0" "User Manual"
 .hy
 .SS NAME
 .PP
@@ -26,50 +26,37 @@ libraries in tar/lz4 archives
 \f[C]
 $ tpack --help               # display usage information
 $ tpack wrap app.tapp        # wraps app.tcl and app.vfs into app.tapp 
-                             # where app.vfs is attached as tar archive
-$ tpack wrap app.tapp --lz4  # as above but use tar and lz4 for compression
-$ tpack wrap app.tcl app.vfs # wraps app.tcl into app.ttcl and app.vfs into app.ttar
-$ tpack wrap app             #            as above
+                             # where app.vfs is attached as base64 archive
+$ tpack wrap app.tapp --lz4  # as above but use base64 and lz4 for compression
 $ tpack init app.tcl app.vfs # creates initial file app.tcl and folder app.vfs
 $ tpack init app             #            as above
 $ tpack init app.vfs         # create initial folder app.vfs
-$ tpack unwrap app.tapp      # extracts app.tcl and app.ttar/lz4 out of app.tapp
+$ tpack unwrap app.tapp      # extracts app.tcl and app.vfs out of app.tapp
 \f[R]
 .fi
 .SS DESCRIPTION
 .PP
 The \f[I]tpack\f[R] application can be used to simplify deployment of
 Tcl applications to other computers and customers.
-The application can create single and two file applications.
-Single file applications, called tapp-files contain at the top the tar
-extraction code, the main tcl script and an attached tar archive
-containing the libraries required by this application file.
-At startup the tar file is detached from the file and unpacked into a
-temporary folder from where the libraries are loaded.
+The application can create single file Tcl applications.
+These single file applications, called tapp-files contain at the top the
+base64 / lz4 extraction code, the main tcl script and an attached base64
+archive where all files are encoded using base64 and file separation
+lines containing the libraries required by this application file.
+At startup the base64 encoded files are detached from the file and
+unpacked into a temporary folder from where the libraries are loaded.
 The compression with lz4 needs an installed lz4 executable, the
 decompression of the build executable is embedded into the final
 application but requires a Tcl installation of at least 8.5.
 .PP
-The single file approach create as \f[I]app.tapp\f[R] file out of
+The single file approach creates \f[I]app.tapp\f[R] file out of
 \f[I]app.vfs\f[R] and \f[I]app.tcl\f[R].
-.PP
-The two file approach creates a ttcl-file for the application and a
-ttar-file for the library files.
-The unpacking of the library code in the tar archives is done only if
-the tapp file is newer then the files in the temporary directorywhere
-the files are extracted.
-If we assume that we have the application code in a file
-\f[I]app.tcl\f[R] and the Tcl libraries in a folder
-\f[I]app.vfs/lib\f[R] together with a file \f[I]app.vfs/main.tcl\f[R].
-The call \f[V]$ tpack.tcl app.tcl app.vfs\f[R] will create two files:
-.RS
-.IP \[bu] 2
-\f[I]app.ttcl\f[R] - text file containing the application code from
-\f[I]app.tcl\f[R] and some code from the tar library to extract tar
-files
-.IP \[bu] 2
-\f[I]app.ttar\f[R] - the library files from \f[I]app.vfs\f[R]
-.RE
+.IP
+.nf
+\f[C]
+tpack wrap app.tapp
+\f[R]
+.fi
 .PP
 The file \f[I]main.tcl\f[R] in the vfs-folder should contain at least
 the following line:
@@ -117,10 +104,12 @@ That way you should be able to use your vfs-folder for creating tpacked
 applications as well for creating starkits.
 .SS INSTALLATION
 .PP
-Make this file \f[I]tpack.tcl\f[R] executable and copy it as
-\f[I]tpack\f[R] into a directory belonging to your PATH environment.
+Make this file
+tpack-b64.tcl (https://raw.githubusercontent.com/mittelmark/tpack/refs/heads/main/tpack-b64.tcl)
+executable and copy it as \f[I]tpack\f[R] into a directory belonging to
+your PATH environment.
 There are no other Tcl libraries required to install, just a working
-installation of Tcl/Tk is required.
+installation of Tcl/Tk of at least Tcl 8.5 is required.
 .SS EXAMPLE
 .PP
 Let\[cq]s demonstrate a minimal application:
@@ -166,30 +155,16 @@ If the files were created, you can overwrite the Tcl file
 libraries into the folder \f[I]appname.vfs\f[R].
 If you are ready you call \f[V]tpack wrap appname.tcl appname.vfs\f[R]
 and you end up with two new files, \f[I]appname.ttcl\f[R] your
-application code file, containing your code as well as some code from
-the tcllib tar package to unwrap your library file
-\f[I]appname.ttar\f[R] at program runtime.
-The ttar file contains your library files taken from the
-\f[I]appname.vfs\f[R] folder.
-You can move those two files around together and execute
-\f[I]appname.ttcl\f[R], it will unpack the tar file into a temporary
-directory, only if the tar file is newer than the directory and load the
-libraries from there.
-You can as well rename \f[I]appname.ttcl\f[R] to \f[I]appname\f[R] but
-your tar-file should always have the same basename.
+application code file, containing your code as well as some code to
+encode and decode base64 files.
 .PP
-Attention: if mini.ttcl is executed directly in the directory where
-mini.vfs is located not the tar file but the folder will be used for the
-libraries.
+Attention: if mini.tapp is executed directly in the directory where
+mini.vfs is located not the mini.tapp file but the folder will be used
+for the libraries.
 That can simplify the development.
 .PP
-You can rename mini.ttcl to what every you like so \f[V]mini.bin\f[R] or
-even \f[V]mini\f[R], but the extension for the tar file must stay
-unchanged and must be in the same folder as the mini application file.
-.PP
-The tpack.tcl script, the minimal application and this Readme are as
-well packed together in a Zip archive which is available here:
-tpack.zip (https://downgit.github.io/#/home?url=https://github.com/mittelmark/DGTcl/tree/master/apps/tpack)
+You can rename mini.tapp to what every you like so \f[V]mini.bin\f[R] or
+even \f[V]mini\f[R].
 .SS CHANGELOG
 .IP \[bu] 2
 2021-09-10 - release 0.1 - two file applications (ttcl and ttar) are
@@ -238,10 +213,9 @@ making it Tcl 9 aware
 .IP \[bu] 2
 making it Tcl 9 aware, anohter fix
 .RE
-.SS TODO
 .IP \[bu] 2
-using ttar.gz files with Tcl 8.6 and zlib and with Tcl 8.5/8.4 gunzip
-terminal app
+2025-01-03 - rewrite using base64 instead of tar and as well only
+supporting single file approach, so tapp files ## TODO
 .IP \[bu] 2
 nsis installer for Windows, to deploy minimal Tcl/Tk with the
 application

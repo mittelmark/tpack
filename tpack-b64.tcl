@@ -4,7 +4,7 @@
 #  Author        : Detlef Groth
 #  Created By    : Detlef Groth
 #  Created       : Tue Sep 7 17:58:32 2021
-#  Last Modified : <250104.0815>
+#  Last Modified : <250104.1058>
 #
 #  Description	 : Standalone deployment tool for Tcl apps using uncompressed tar archives.
 #
@@ -17,7 +17,7 @@
 #                  2022-02-16 - release 0.3.0 (lz4 compression support)
 #                  2024-03-14 - release 0.3.1 (docu updates, project moved)
 #                  2025-01-02 - release 0.4.0/1 Tcl 9 aware
-#                  2025-01-03 - release 0.5.0 Tcl 8.5, 8.6, 0.0 aware switch 
+#                  2025-01-03 - release 0.5.0 Tcl 8.5, 8.6, 9.0 aware, switch 
 #                                             from tar to base64 wrappping
 #                  
 #	
@@ -31,14 +31,14 @@
 
 if {![package vsatisfies [package provide Tcl] 8.5 9]} { return }
 
-## File tpack.tcl
+## File tpack-b64.tcl
 #' ---
 #' title: tpack - Tcl application deployment
 #' section: 1
 #' header: User Manual
 #' footer: tpack 0.5.0
 #' author: Detlef Groth, University of Potsdam, Germany
-#' date: 2025-01-03
+#' date: 2025-01-04
 #' ---
 #' 
 #' ## NAME 
@@ -72,7 +72,7 @@ if {![package vsatisfies [package provide Tcl] 8.5 9]} { return }
 #' The single file approach creates _app.tapp_ file out of _app.vfs_ and _app.tcl_.
 #'
 #' ```
-#' tpack wrap app.ttap
+#' tpack wrap app.tapp
 #' ```
 #' 
 #' The file _main.tcl_ in the vfs-folder should contain at least the following line:
@@ -111,7 +111,8 @@ if {![package vsatisfies [package provide Tcl] 8.5 9]} { return }
 #'
 #' ## INSTALLATION
 #' 
-#' Make this file _tpack.tcl_ executable and copy it as _tpack_ into a directory belonging to your
+#' Make this file [tpack-b64.tcl](https://raw.githubusercontent.com/mittelmark/tpack/refs/heads/main/tpack-b64.tcl)
+#' executable and copy it as _tpack_ into a directory belonging to your
 #' PATH environment. There are no other Tcl libraries required to install, just a working installation
 #' of Tcl/Tk of at least Tcl 8.5 is required.
 #' 
