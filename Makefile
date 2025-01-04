@@ -26,3 +26,15 @@ test:
 	chmod 755 bin/mini.zbin
 	./bin/mini.zbin
 	$(TCL9) bin/mini.zbin		
+md2html:
+	-mkdir md2html.vfs
+	echo "lappend auto_path [file join [file dirname [info script]] lib]" > md2html.vfs/main.tcl
+	-mkdir -p md2html.vfs/lib/markdown
+	cp ~/workspace/tcllib/modules/markdown/*.tcl md2html.vfs/lib/markdown/
+	echo "package require Markdown" > md2html.tcl
+	echo "puts [package present Markdown]" >> md2html.tcl
+	tclsh tpack-b64.tcl wrap md2html.tapp
+	cp md2html.tapp bin/md2html.bin
+	tclsh tpack-b64.tcl md2html.tapp --lz4
+	cp md2html.tapp bin/md2html.zbin
+	

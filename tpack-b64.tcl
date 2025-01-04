@@ -4,7 +4,7 @@
 #  Author        : Detlef Groth
 #  Created By    : Detlef Groth
 #  Created       : Tue Sep 7 17:58:32 2021
-#  Last Modified : <250102.2149>
+#  Last Modified : <250104.0815>
 #
 #  Description	 : Standalone deployment tool for Tcl apps using uncompressed tar archives.
 #
@@ -938,7 +938,6 @@ if {[file exists $rname.vfs]} {
     }
     if {![file exists $appdir]} {
         file mkdir $appdir
-        puts "untaring $tarfile"
         decode_file $tarfile $appdir
     }
     set vfspath [lindex [glob [file join $appdir *]] 0]
