@@ -4,7 +4,7 @@
 #  Author        : Detlef Groth
 #  Created By    : Detlef Groth
 #  Created       : Tue Sep 7 17:58:32 2021
-#  Last Modified : <250104.1058>
+#  Last Modified : <251013.0948>
 #
 #  Description	 : Standalone deployment tool for Tcl apps using uncompressed tar archives.
 #
@@ -792,7 +792,7 @@ proc ::lz4::file-test {path canHash} {
     set ch [open $path rb]
     set data [read $ch]
     close $ch
-    set ch [open [list |lz4 -c -9 $path]]
+    set ch [open [list |lz4 -c -12 $path]]
     fconfigure $ch -translation binary
     set dataCompressed [read $ch]
     close $ch
@@ -1180,7 +1180,7 @@ if {[info exists argv0] && $argv0 eq [info script]} {
             wrapfile $tclfile $ttclfile $scriptfile $lz4
             b64dir $vfsfolder $ttarfile
             if {$lz4} {
-                exec -ignorestderr lz4 -f $ttarfile $lz4file
+                exec -ignorestderr lz4 -f -9 $ttarfile $lz4file
                 wraptapp $ttclfile $lz4file $tappfile
             } else {
                 wraptapp $ttclfile $ttarfile $tappfile
