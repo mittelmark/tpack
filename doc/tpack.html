@@ -5,7 +5,7 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="Detlef Groth, University of Potsdam, Germany" />
-  <meta name="dcterms.date" content="2025-01-04" />
+  <meta name="dcterms.date" content="2025-10-13" />
   <title>tpack - Tcl application deployment</title>
   <style>
     code{white-space: pre-wrap;}
@@ -25,15 +25,12 @@
     .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
   <link rel="stylesheet" href="mini.css" />
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
 </head>
 <body>
 <header id="title-block-header">
 <h1 class="title">tpack - Tcl application deployment</h1>
 <p class="author">Detlef Groth, University of Potsdam, Germany</p>
-<p class="date">2025-01-04</p>
+<p class="date">2025-10-13</p>
 </header>
 <h2 id="name">NAME</h2>
 <p><em>tpack</em> - create single or two file Tcl applications based on
@@ -135,9 +132,9 @@ for the libraries. That can simplify the development.</p>
 <code>mini.bin</code> or even <code>mini</code>.</p>
 <h2 id="changelog">CHANGELOG</h2>
 <ul>
-<li><p>2021-09-10 - release 0.1 - two file applications (ttcl and ttar)
-are working</p></li>
-<li><p>2021-11-10 - release 0.2.0</p>
+<li>2021-09-10 - release 0.1 - two file applications (ttcl and ttar) are
+working</li>
+<li>2021-11-10 - release 0.2.0
 <ul>
 <li>single file applications (ttap = ttcl+ttar in one file) are working
 as well</li>
@@ -145,33 +142,38 @@ as well</li>
 modification</li>
 <li>build sample apps tknotepad, pandoc-tcl-filter,</li>
 </ul></li>
-<li><p>2021-11-26 - release 0.2.1</p>
+<li>2021-11-26 - release 0.2.1
 <ul>
 <li>bugfix: adding <code>package forget tar</code> after tar file
 loading to catch users <code>package require tar</code></li>
 </ul></li>
-<li><p>2022-02-16 - release 0.3.0</p>
+<li>2022-02-16 - release 0.3.0
 <ul>
 <li>support for lz4 compression/decompression</li>
 </ul></li>
-<li><p>2024-03-14 - release 0.3.1</p>
+<li>2024-03-14 - release 0.3.1
 <ul>
 <li>docu updates</li>
 <li>project moved to its own repo
 https://github.com/mittelmark/tpack</li>
 </ul></li>
-<li><p>2025-01-01 - release 0.4.0</p>
+<li>2025-01-01 - release 0.4.0
 <ul>
 <li>making it Tcl 9 aware</li>
 </ul></li>
-<li><p>2025-01-02 - release 0.4.1</p>
+<li>2025-01-02 - release 0.4.1
 <ul>
-<li>making it Tcl 9 aware, anohter fix</li>
+<li>making it Tcl 9 aware, another fix</li>
 </ul></li>
-<li><p>2025-01-03 - rewrite using base64 instead of tar and as well only
-supporting single file approach, so tapp files ## TODO</p></li>
-<li><p>nsis installer for Windows, to deploy minimal Tcl/Tk with the
-application</p></li>
+<li>2025-01-03 - release 0.5.0 rewrite using base64 instead of tar and
+as well only supporting single file approach, so tapp files</li>
+<li>2025-10-13 - release 0.6.0 lz4 compression set to 9 as lz4 v1.10
+seems to have lower compression level as default</li>
+</ul>
+<h2 id="todo">TODO</h2>
+<ul>
+<li>nsis installer for Windows, to deploy minimal Tcl/Tk with the
+application</li>
 </ul>
 <h2 id="author">AUTHOR</h2>
 <ul>

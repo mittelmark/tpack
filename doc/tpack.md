@@ -2,9 +2,9 @@
 title: tpack - Tcl application deployment
 section: 1
 header: User Manual
-footer: tpack 0.5.0
+footer: tpack 0.6.0
 author: Detlef Groth, University of Potsdam, Germany
-date: 2025-01-04
+date: 2025-10-13
 ---
 
 ## NAME 
@@ -143,9 +143,12 @@ You can rename mini.tapp to what every you like so `mini.bin` or even `mini`.
 - 2025-01-01 - release 0.4.0
     - making it Tcl 9 aware
 - 2025-01-02 - release 0.4.1
-    - making it Tcl 9 aware, anohter fix
-- 2025-01-03 - rewrite using base64 instead of tar and as well only supporting single file
+    - making it Tcl 9 aware, another fix
+- 2025-01-03 - release 0.5.0 rewrite using base64 instead of tar and as well only supporting single file
                approach, so tapp files
+- 2025-10-13 - release 0.6.0 lz4 compression set to 9 as lz4 v1.10 seems to have
+               lower compression level as default
+
 ## TODO
 
 - nsis installer for Windows, to deploy minimal Tcl/Tk with the application
