@@ -111,24 +111,26 @@ yourself using _gzip_, _zip_ or other tools.
 
 - [mkdoc](https://github.com/mittelmark/mkdoc)  - source  code  documentation tool
 - [pantcl](https://github.com/mittelmark/pantcl) - reporting tool for literate
-programming as pandoc filter
+  programming as pandoc filter
 - [tmdoc](https://github.com/mittelmark/tmdoc) - literature programming with Tcl
 
 ## CHANGES
 
 - 2025-01-01: v0.4.0 starting support for Tcl 9
-- 2025-01-XX: v0.5.0 switched default from tar to base64 as the code storage as tar code had some issues
+- 2025-01-03: v0.5.0 switched default from tar to base64 as the code storage as tar code had some issues
+- 2025-10-13: v0.6.0 compression level set to 9 as lz4 v1.10 seems to have lower default
+- 2025-10-26: v0.7.0 tmp folder multiuser fix for the same application on the same same machine 
 
 ## LICENSE
 
 ```
 BSD 3-Clause License
 
-Copyright (c) 2024, Detlef Groth tpack code
+Copyright (c) 2021-2025 Detlef Groth tpack code
 Copyright (c) 2017 dbohdan pur Tcl lz4 decompression code
 Copyright (c) 2013 Andreas Kupries andreas_kupries(at)users.sourceforge(dot)net (tar code)
 Copyright (c) 2004 Aaron Faupell afaupell(at)users.sourceforge(sot)net (tar code)
-#
+
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:

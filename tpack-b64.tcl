@@ -4,7 +4,7 @@
 #  Author        : Detlef Groth
 #  Created By    : Detlef Groth
 #  Created       : Tue Sep 7 17:58:32 2021
-#  Last Modified : <251013.0956>
+#  Last Modified : <251026.1630>
 #
 #  Description	 : Standalone deployment tool for Tcl apps using uncompressed tar archives.
 #
@@ -21,8 +21,7 @@
 #                                             from tar to base64 wrappping
 #                  2025-10-13 - release 0.6.0 compression level set to 9
 #                                             as lz4 v1.10 seems to have lower default
-#                                             
-#                  
+#                  2025-10-26 - release 0.7.0 multiuser fix for the same machine
 #	
 ##############################################################################
 #
@@ -39,9 +38,9 @@ if {![package vsatisfies [package provide Tcl] 8.5 9]} { return }
 #' title: tpack - Tcl application deployment
 #' section: 1
 #' header: User Manual
-#' footer: tpack 0.6.0
+#' footer: tpack 0.7.0
 #' author: Detlef Groth, University of Potsdam, Germany
-#' date: 2025-10-13
+#' date: 2025-10-26
 #' ---
 #' 
 #' ## NAME 
@@ -185,6 +184,7 @@ if {![package vsatisfies [package provide Tcl] 8.5 9]} { return }
 #'                approach, so tapp files
 #' - 2025-10-13 - release 0.6.0 lz4 compression set to 9 as lz4 v1.10 seems to have
 #'                lower compression level as default
+#' - 2025-10-XX - release 0.7.0 fix for tmp folder issue for different users using the same application
 #'
 #' ## TODO
 #' 
@@ -231,7 +231,7 @@ if {![package vsatisfies [package provide Tcl] 8.5 9]} { return }
 #' ```
 #'
 package require Tcl
-package provide tpack 0.6.0
+package provide tpack 0.7.0
 
 ## FILE: b64.tcl
 #!/usr/bin/env tclsh
@@ -889,7 +889,10 @@ if {[file exists $rname.vfs]} {
     set tail [file tail $rname]
     set time [file mtime [info script]]
     set appname [info script]
-    set tmpdir [getTempDir]
+    set tmpdir [file join [getTempDir] $::env(USER)]
+    if {![file exists $tmpdir]} {
+        file mkdir $tmpdir
+    }
     set f [open $appname]
     fconfigure $f -translation binary
     set data [read $f][close $f]
