@@ -2,9 +2,9 @@
 title: tpack - Tcl application deployment
 section: 1
 header: User Manual
-footer: tpack 0.6.0
+footer: tpack 0.7.0
 author: Detlef Groth, University of Potsdam, Germany
-date: 2025-10-13
+date: 2025-10-26
 ---
 
 ## NAME 
@@ -128,7 +128,8 @@ You can rename mini.tapp to what every you like so `mini.bin` or even `mini`.
 
 ## CHANGELOG
 
-- 2021-09-10 - release 0.1  - two file applications (ttcl and ttar) are working
+- 2021-09-10 - release 0.1  
+    - two file applications (ttcl and ttar) are working
 - 2021-11-10 - release 0.2.0 
     - single file applications (ttap = ttcl+ttar in one file) are working as well
     - fake starkit::startup to load existing starkit apps without modification
@@ -144,14 +145,17 @@ You can rename mini.tapp to what every you like so `mini.bin` or even `mini`.
     - making it Tcl 9 aware
 - 2025-01-02 - release 0.4.1
     - making it Tcl 9 aware, another fix
-- 2025-01-03 - release 0.5.0 rewrite using base64 instead of tar and as well only supporting single file
-               approach, so tapp files
-- 2025-10-13 - release 0.6.0 lz4 compression set to 9 as lz4 v1.10 seems to have
-               lower compression level as default
+- 2025-01-03 - release 0.5.0 
+    - rewrite using base64 instead of tar and as well only supporting single file approach, so tapp files
+- 2025-10-13 - release 0.6.0 
+    - lz4 compression set to 9 as lz4 v1.10 seems to have lower compression level as default
+- 2025-10-26 - release 0.7.0 
+    - fix for tmp folder issue for different users using the same application
 
 ## TODO
 
 - nsis installer for Windows, to deploy minimal Tcl/Tk with the application
+- tclkit wrapping using sdx for Windows
 
 ## AUTHOR
 

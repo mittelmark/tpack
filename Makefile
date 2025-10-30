@@ -4,6 +4,7 @@ docu:
 	perl -ne "/^#'/ and print" tpack-b64.tcl | perl -pe 's/^.. ?//' > doc/tpack.md
 	cd doc && pandoc tpack.md -o tpack.html --css mini.css -s
 	cd doc && pandoc tpack.md -s -t man > tpack.1
+	weasyprint -s doc/mini.css -s doc/small.css doc/tpack.html doc/tpack.pdf
 
 test:
 	[[ ! -d test ]] && mkdir test
