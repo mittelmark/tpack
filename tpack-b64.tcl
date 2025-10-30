@@ -4,7 +4,7 @@
 #  Author        : Detlef Groth
 #  Created By    : Detlef Groth
 #  Created       : Tue Sep 7 17:58:32 2021
-#  Last Modified : <251030.2137>
+#  Last Modified : <251030.2154>
 #
 #  Description	 : Standalone deployment tool for Tcl apps using uncompressed tar archives.
 #
@@ -118,6 +118,15 @@ if {![package vsatisfies [package provide Tcl] 8.5 9]} { return }
 #' PATH environment. There are no other Tcl libraries required to install, just a working installation
 #' of Tcl/Tk of at least Tcl 8.5 is required.
 #' 
+#' Here a simple installation using the latest release:
+#'
+#' ```
+#' wget https://github.com/mittelmark/tpack/releases/latest/download/tpack -O ~/.local/bin/tpack
+#' chmod 755 ~/.local/bin/tpack
+#' tpack --version
+#' 0.7.0
+#' ```
+#'
 #' ## EXAMPLE
 #' 
 #' Let's demonstrate a minimal application:
@@ -139,6 +148,7 @@ if {![package vsatisfies [package provide Tcl] 8.5 9]} { return }
 #' proc ::test::hello { } { puts "Hello World!" }
 #' ## EOF's
 #' ```
+#'
 #' There is the possibility to create such a minimal application automatically for you if you start a new project
 #' by using the command line options:
 #' 
