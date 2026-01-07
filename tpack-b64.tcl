@@ -4,7 +4,7 @@
 #  Author        : Detlef Groth
 #  Created By    : Detlef Groth
 #  Created       : Tue Sep 7 17:58:32 2021
-#  Last Modified : <260107.0903>
+#  Last Modified : <260107.0925>
 #
 #  Description	 : Standalone deployment tool for Tcl apps using uncompressed tar archives.
 #
@@ -41,7 +41,7 @@ if {![package vsatisfies [package provide Tcl] 8.5 9]} { return }
 #' header: User Manual
 #' footer: tpack 0.7.1
 #' author: Detlef Groth, University of Potsdam, Germany
-#' date: 2025-10-26
+#' date: 2026-01-07
 #' ---
 #' 
 #' ## NAME 
