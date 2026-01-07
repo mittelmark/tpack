@@ -4,7 +4,7 @@
 #  Author        : Detlef Groth
 #  Created By    : Detlef Groth
 #  Created       : Tue Sep 7 17:58:32 2021
-#  Last Modified : <251030.2154>
+#  Last Modified : <260107.0903>
 #
 #  Description	 : Standalone deployment tool for Tcl apps using uncompressed tar archives.
 #
@@ -22,10 +22,11 @@
 #                  2025-10-13 - release 0.6.0 compression level set to 9
 #                                             as lz4 v1.10 seems to have lower default
 #                  2025-10-26 - release 0.7.0 multiuser fix for the same machine
+#                  2026-01-07 - release 0.7.1 fix for windows environment var USER vs USERNAME
 #	
 ##############################################################################
 #
-#  Copyright (c) 2021-2025 Detlef Groth, University of Potsdam, Germany
+#  Copyright (c) 2021-2026 Detlef Groth, University of Potsdam, Germany
 # 
 #  License:      BSD 3-Clause License
 # 
@@ -38,7 +39,7 @@ if {![package vsatisfies [package provide Tcl] 8.5 9]} { return }
 #' title: tpack - Tcl application deployment
 #' section: 1
 #' header: User Manual
-#' footer: tpack 0.7.0
+#' footer: tpack 0.7.1
 #' author: Detlef Groth, University of Potsdam, Germany
 #' date: 2025-10-26
 #' ---
@@ -124,7 +125,7 @@ if {![package vsatisfies [package provide Tcl] 8.5 9]} { return }
 #' wget https://github.com/mittelmark/tpack/releases/latest/download/tpack -O ~/.local/bin/tpack
 #' chmod 755 ~/.local/bin/tpack
 #' tpack --version
-#' 0.7.0
+#' 0.7.1
 #' ```
 #'
 #' ## EXAMPLE
@@ -197,6 +198,8 @@ if {![package vsatisfies [package provide Tcl] 8.5 9]} { return }
 #'     - lz4 compression set to 9 as lz4 v1.10 seems to have lower compression level as default
 #' - 2025-10-26 - release 0.7.0 
 #'     - fix for tmp folder issue for different users using the same application
+#' - 2026-01-07 - release 0.7.1 
+#'     - fix for non existing USER var in Windows, checking for USERNAME
 #'
 #' ## TODO
 #' 
@@ -205,7 +208,7 @@ if {![package vsatisfies [package provide Tcl] 8.5 9]} { return }
 #'
 #' ## AUTHOR
 #' 
-#'   - Copyright (c) 2021-2025 Detlef Groth, University of Potsdam, Germany, dgroth(at)uni(minus)potsdam(dot)de (tpack code)
+#'   - Copyright (c) 2021-2026 Detlef Groth, University of Potsdam, Germany, dgroth(at)uni(minus)potsdam(dot)de (tpack code)
 #'   - Copyright (c) 2017 dbohdan pur Tcl lz4 decompression code
 #'   - Copyright (c) 2013 Andreas Kupries andreas_kupries(at)users.sourceforge(dot)net (tar code)
 #'   - Copyright (c) 2004 Aaron Faupell afaupell(at)users.sourceforge(sot)net (tar code)
@@ -244,7 +247,7 @@ if {![package vsatisfies [package provide Tcl] 8.5 9]} { return }
 #' ```
 #'
 package require Tcl
-package provide tpack 0.7.0
+package provide tpack 0.7.1
 
 ## FILE: b64.tcl
 #!/usr/bin/env tclsh
@@ -902,7 +905,13 @@ if {[file exists $rname.vfs]} {
     set tail [file tail $rname]
     set time [file mtime [info script]]
     set appname [info script]
-    set tmpdir [file join [getTempDir] $::env(USER)]
+    if {[info exists ::env(USER)]} {
+        set tmpdir [file join [getTempDir] $::env(USER)]
+    } elseif {[info exists ::env(USERNAME)]} {
+        set tmpdir [file join [getTempDir] $::env(USERNAME)]
+    } else {
+        error "Neither variable USERNAME or USER exists"
+    }
     if {![file exists $tmpdir]} {
         file mkdir $tmpdir
     }

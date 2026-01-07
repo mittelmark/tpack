@@ -93,6 +93,11 @@ executable and copy it as <em>tpack</em> into a directory belonging to
 your PATH environment. There are no other Tcl libraries required to
 install, just a working installation of Tcl/Tk of at least Tcl 8.5 is
 required.</p>
+<p>Here a simple installation using the latest release:</p>
+<pre><code>wget https://github.com/mittelmark/tpack/releases/latest/download/tpack -O ~/.local/bin/tpack
+chmod 755 ~/.local/bin/tpack
+tpack --version
+0.7.1</code></pre>
 <h2 id="example">EXAMPLE</h2>
 <p>Let’s demonstrate a minimal application:</p>
 <pre><code>## FILE mini.tcl
@@ -182,6 +187,10 @@ compression level as default</li>
 <li>fix for tmp folder issue for different users using the same
 application</li>
 </ul></li>
+<li>2026-01-07 - release 0.7.1
+<ul>
+<li>fix for non existing USER var in Windows, checking for USERNAME</li>
+</ul></li>
 </ul>
 <h2 id="todo">TODO</h2>
 <ul>
@@ -191,7 +200,7 @@ application</li>
 </ul>
 <h2 id="author">AUTHOR</h2>
 <ul>
-<li>Copyright (c) 2021-2025 Detlef Groth, University of Potsdam,
+<li>Copyright (c) 2021-2026 Detlef Groth, University of Potsdam,
 Germany, dgroth(at)uni(minus)potsdam(dot)de (tpack code)</li>
 <li>Copyright (c) 2017 dbohdan pur Tcl lz4 decompression code</li>
 <li>Copyright (c) 2013 Andreas Kupries

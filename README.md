@@ -82,7 +82,9 @@ Here an example on how to do that on a Linux system using wget:
 ```
 wget  https://raw.githubusercontent.com/mittelmark/tpack/main/tpack-b64.tcl -O tpack.tcl
 chmod 755 tpack.tcl
-mv tpack.tcl ~/bin/
+mv tpack.tcl ~/bin/tpack
+tpack --version
+0.7.1
 ```
 
 ## COMPARISON
@@ -109,17 +111,19 @@ yourself using _gzip_, _zip_ or other tools.
 
 ## EXAMPLE APPLICATIONS
 
-- [mkdoc](https://github.com/mittelmark/mkdoc)  - source  code  documentation tool
+- [mndoc](https://github.com/mittelmark/mndoc)  - source  code  documentation tool
+- [tmdoc](https://github.com/mittelmark/tmdoc) - literature programming with Tcl
+- [mkdoc](https://github.com/mittelmark/mkdoc)  - source  code  documentation tool (archived, see mndoc)
 - [pantcl](https://github.com/mittelmark/pantcl) - reporting tool for literate
   programming as pandoc filter
-- [tmdoc](https://github.com/mittelmark/tmdoc) - literature programming with Tcl
 
 ## CHANGES
 
-- 2025-01-01: v0.4.0 starting support for Tcl 9
-- 2025-01-03: v0.5.0 switched default from tar to base64 as the code storage as tar code had some issues
-- 2025-10-13: v0.6.0 compression level set to 9 as lz4 v1.10 seems to have lower default
+- 2025-01-07: v0.7.1 fix for Windows not having variable USER but USERNAME
 - 2025-10-26: v0.7.0 tmp folder multiuser fix for the same application on the same same machine 
+- 2025-10-13: v0.6.0 compression level set to 9 as lz4 v1.10 seems to have lower default
+- 2025-01-03: v0.5.0 switched default from tar to base64 as the code storage as tar code had some issues
+- 2025-01-01: v0.4.0 starting support for Tcl 9
 
 ## LICENSE
 

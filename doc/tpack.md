@@ -2,7 +2,7 @@
 title: tpack - Tcl application deployment
 section: 1
 header: User Manual
-footer: tpack 0.7.0
+footer: tpack 0.7.1
 author: Detlef Groth, University of Potsdam, Germany
 date: 2025-10-26
 ---
@@ -82,6 +82,15 @@ executable and copy it as _tpack_ into a directory belonging to your
 PATH environment. There are no other Tcl libraries required to install, just a working installation
 of Tcl/Tk of at least Tcl 8.5 is required.
 
+Here a simple installation using the latest release:
+
+```
+wget https://github.com/mittelmark/tpack/releases/latest/download/tpack -O ~/.local/bin/tpack
+chmod 755 ~/.local/bin/tpack
+tpack --version
+0.7.1
+```
+
 ## EXAMPLE
 
 Let's demonstrate a minimal application:
@@ -103,6 +112,7 @@ namespace eval ::test { }
 proc ::test::hello { } { puts "Hello World!" }
 ## EOF's
 ```
+
 There is the possibility to create such a minimal application automatically for you if you start a new project
 by using the command line options:
 
@@ -151,6 +161,8 @@ You can rename mini.tapp to what every you like so `mini.bin` or even `mini`.
     - lz4 compression set to 9 as lz4 v1.10 seems to have lower compression level as default
 - 2025-10-26 - release 0.7.0 
     - fix for tmp folder issue for different users using the same application
+- 2026-01-07 - release 0.7.1 
+    - fix for non existing USER var in Windows, checking for USERNAME
 
 ## TODO
 
@@ -159,7 +171,7 @@ You can rename mini.tapp to what every you like so `mini.bin` or even `mini`.
 
 ## AUTHOR
 
-  - Copyright (c) 2021-2025 Detlef Groth, University of Potsdam, Germany, dgroth(at)uni(minus)potsdam(dot)de (tpack code)
+  - Copyright (c) 2021-2026 Detlef Groth, University of Potsdam, Germany, dgroth(at)uni(minus)potsdam(dot)de (tpack code)
   - Copyright (c) 2017 dbohdan pur Tcl lz4 decompression code
   - Copyright (c) 2013 Andreas Kupries andreas_kupries(at)users.sourceforge(dot)net (tar code)
   - Copyright (c) 2004 Aaron Faupell afaupell(at)users.sourceforge(sot)net (tar code)
